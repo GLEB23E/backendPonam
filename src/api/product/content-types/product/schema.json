@@ -1,0 +1,74 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "singularName": "product",
+    "pluralName": "products",
+    "displayName": "Product",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "price": {
+      "type": "integer",
+      "min": 0
+    },
+    "reviews": {
+      "type": "integer",
+      "max": 5,
+      "min": 0,
+      "default": 0
+    },
+    "preview": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "carusel": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "optionsprods": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::optionsprod.optionsprod",
+      "mappedBy": "product"
+    },
+    "Brend": {
+      "type": "enumeration",
+      "enum": [
+        "Reebok",
+        "Adidas",
+        "Nike",
+        "New Balance",
+        "Puma",
+        "StreetBeat"
+      ]
+    },
+    "male": {
+      "type": "string"
+    }
+  }
+}
