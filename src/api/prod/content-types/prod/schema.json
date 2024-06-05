@@ -19,14 +19,13 @@
       "inversedBy": "prods"
     },
     "name": {
-      "type": "string"
+      "type": "text"
     },
     "size": {
-      "type": "string"
+      "type": "text"
     },
     "count": {
-      "type": "integer",
-      "default": 1
+      "type": "biginteger"
     },
     "order": {
       "type": "relation",

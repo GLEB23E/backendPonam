@@ -13,20 +13,16 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "text"
     },
     "description": {
-      "type": "string"
+      "type": "text"
     },
     "price": {
-      "type": "integer",
-      "min": 0
+      "type": "biginteger"
     },
     "reviews": {
-      "type": "integer",
-      "max": 5,
-      "min": 0,
-      "default": 0
+      "type": "biginteger"
     },
     "preview": {
       "type": "media",
@@ -62,7 +58,7 @@
       ]
     },
     "male": {
-      "type": "string"
+      "type": "text"
     }
   }
 }

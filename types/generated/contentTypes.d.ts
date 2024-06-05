@@ -843,7 +843,7 @@ export interface ApiOrderOrder extends Schema.CollectionType {
       'api::prod.prod'
     >;
     cart: Attribute.Relation<'api::order.order', 'manyToOne', 'api::cart.cart'>;
-    name: Attribute.String;
+    name: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -874,9 +874,9 @@ export interface ApiProdProd extends Schema.CollectionType {
   };
   attributes: {
     cart: Attribute.Relation<'api::prod.prod', 'manyToOne', 'api::cart.cart'>;
-    name: Attribute.String;
-    size: Attribute.String;
-    count: Attribute.Integer & Attribute.DefaultTo<1>;
+    name: Attribute.Text;
+    size: Attribute.Text;
+    count: Attribute.BigInteger;
     order: Attribute.Relation<
       'api::prod.prod',
       'manyToOne',
@@ -904,30 +904,16 @@ export interface ApiProductProduct extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    name: Attribute.String;
-    description: Attribute.String;
-    price: Attribute.Integer &
-      Attribute.SetMinMax<
-        {
-          min: 0;
-        },
-        number
-      >;
-    reviews: Attribute.Integer &
-      Attribute.SetMinMax<
-        {
-          min: 0;
-          max: 5;
-        },
-        number
-      > &
-      Attribute.DefaultTo<0>;
+    name: Attribute.Text;
+    description: Attribute.Text;
+    price: Attribute.BigInteger;
+    reviews: Attribute.BigInteger;
     preview: Attribute.Media;
     carusel: Attribute.Media;
     Brend: Attribute.Enumeration<
       ['Reebok', 'Adidas', 'Nike', 'New Balance', 'Puma', 'StreetBeat']
     >;
-    male: Attribute.String;
+    male: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
