@@ -18,6 +18,12 @@
       "target": "plugin::users-permissions.user",
       "inversedBy": "cart"
     },
+    "prods": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::prod.prod",
+      "mappedBy": "cart"
+    },
     "orders": {
       "type": "relation",
       "relation": "oneToMany",

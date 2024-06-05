@@ -12,21 +12,20 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "prods": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::prod.prod",
+      "mappedBy": "order"
+    },
     "cart": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::cart.cart",
       "inversedBy": "orders"
     },
-    "optionsprods": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::optionsprod.optionsprod",
-      "mappedBy": "order"
-    },
-    "stated": {
-      "type": "boolean",
-      "default": true
+    "name": {
+      "type": "string"
     }
   }
 }

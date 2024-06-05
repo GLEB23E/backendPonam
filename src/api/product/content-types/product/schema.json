@@ -50,12 +50,6 @@
         "audios"
       ]
     },
-    "optionsprods": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::optionsprod.optionsprod",
-      "mappedBy": "product"
-    },
     "Brend": {
       "type": "enumeration",
       "enum": [

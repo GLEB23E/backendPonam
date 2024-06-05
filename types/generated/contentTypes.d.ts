@@ -590,6 +590,53 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 50;
+        },
+        number
+      >;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -746,53 +793,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
-  info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 50;
-        },
-        number
-      >;
-    code: Attribute.String & Attribute.Unique;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface ApiCartCart extends Schema.CollectionType {
   collectionName: 'carts';
   info: {
@@ -810,6 +810,7 @@ export interface ApiCartCart extends Schema.CollectionType {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
+    prods: Attribute.Relation<'api::cart.cart', 'oneToMany', 'api::prod.prod'>;
     orders: Attribute.Relation<
       'api::cart.cart',
       'oneToMany',
@@ -820,80 +821,6 @@ export interface ApiCartCart extends Schema.CollectionType {
     createdBy: Attribute.Relation<'api::cart.cart', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::cart.cart', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
-export interface ApiNewNew extends Schema.CollectionType {
-  collectionName: 'news';
-  info: {
-    singularName: 'new';
-    pluralName: 'news';
-    displayName: 'new';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String;
-    content: Attribute.Text;
-    preview: Attribute.Media;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::new.new', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::new.new', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
-export interface ApiOptionsprodOptionsprod extends Schema.CollectionType {
-  collectionName: 'optionsprods';
-  info: {
-    singularName: 'optionsprod';
-    pluralName: 'optionsprods';
-    displayName: 'optionsprod';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    product: Attribute.Relation<
-      'api::optionsprod.optionsprod',
-      'manyToOne',
-      'api::product.product'
-    >;
-    size: Attribute.String;
-    order: Attribute.Relation<
-      'api::optionsprod.optionsprod',
-      'manyToOne',
-      'api::order.order'
-    >;
-    count: Attribute.Integer &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 10;
-        },
-        number
-      > &
-      Attribute.DefaultTo<1>;
-    titleCount: Attribute.String;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::optionsprod.optionsprod',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::optionsprod.optionsprod',
-      'oneToOne',
-      'admin::user'
-    > &
       Attribute.Private;
   };
 }
@@ -910,13 +837,13 @@ export interface ApiOrderOrder extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    cart: Attribute.Relation<'api::order.order', 'manyToOne', 'api::cart.cart'>;
-    optionsprods: Attribute.Relation<
+    prods: Attribute.Relation<
       'api::order.order',
       'oneToMany',
-      'api::optionsprod.optionsprod'
+      'api::prod.prod'
     >;
-    stated: Attribute.Boolean & Attribute.DefaultTo<true>;
+    cart: Attribute.Relation<'api::order.order', 'manyToOne', 'api::cart.cart'>;
+    name: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -930,6 +857,37 @@ export interface ApiOrderOrder extends Schema.CollectionType {
       'oneToOne',
       'admin::user'
     > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProdProd extends Schema.CollectionType {
+  collectionName: 'prods';
+  info: {
+    singularName: 'prod';
+    pluralName: 'prods';
+    displayName: 'prod';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cart: Attribute.Relation<'api::prod.prod', 'manyToOne', 'api::cart.cart'>;
+    name: Attribute.String;
+    size: Attribute.String;
+    count: Attribute.Integer & Attribute.DefaultTo<1>;
+    order: Attribute.Relation<
+      'api::prod.prod',
+      'manyToOne',
+      'api::order.order'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::prod.prod', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::prod.prod', 'oneToOne', 'admin::user'> &
       Attribute.Private;
   };
 }
@@ -966,11 +924,6 @@ export interface ApiProductProduct extends Schema.CollectionType {
       Attribute.DefaultTo<0>;
     preview: Attribute.Media;
     carusel: Attribute.Media;
-    optionsprods: Attribute.Relation<
-      'api::product.product',
-      'oneToMany',
-      'api::optionsprod.optionsprod'
-    >;
     Brend: Attribute.Enumeration<
       ['Reebok', 'Adidas', 'Nike', 'New Balance', 'Puma', 'StreetBeat']
     >;
@@ -1006,14 +959,13 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
       'api::cart.cart': ApiCartCart;
-      'api::new.new': ApiNewNew;
-      'api::optionsprod.optionsprod': ApiOptionsprodOptionsprod;
       'api::order.order': ApiOrderOrder;
+      'api::prod.prod': ApiProdProd;
       'api::product.product': ApiProductProduct;
     }
   }

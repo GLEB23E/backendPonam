@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * optionsprod service
+ * prod service
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
 
-module.exports = createCoreService('api::optionsprod.optionsprod');
+module.exports = createCoreService('api::prod.prod');
